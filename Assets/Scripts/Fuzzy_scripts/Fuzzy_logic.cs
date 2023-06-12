@@ -24,9 +24,9 @@ public class Fuzzy_logic : MonoBehaviour
                                              {3.5f, 5, 8, 10},              // Средне
                                              {8.5f, 12, 15, 20}};           // Быстро
 
-    public float[,] Dist_func =             {{0, 1.5f, 4f, 5},              // Близко
-                                             {4.5f, 6f, 9f, 10},            // Средне
-                                             {9.5f, 11, 50, 200}};          // Далеко
+    public float[,] Dist_func =             {{0, 5.5f, 8f, 10},              // Близко
+                                             {9.5f, 11f, 14f, 15},            // Средне
+                                             {14.5f, 16, 60, 200}};          // Далеко
 
     public float[,] Dist_to_target_func =   {{0, 1.5f, 4f, 5},              // ВПЛОТНУЮ
                                              {4.5f, 5f, 8f, 10},            // Близко
