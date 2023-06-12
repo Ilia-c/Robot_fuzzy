@@ -13,6 +13,9 @@ public class Gen_algoritm : MonoBehaviour
     public void generate_population()
     {
 
+
+
+
     }
 
  /*
