@@ -24,9 +24,16 @@ public class Fuzzy_logic : MonoBehaviour
                                              {3.5f, 5, 8, 10},              // Средне
                                              {8.5f, 12, 15, 20}};           // Быстро
 
+<<<<<<< HEAD
     public float[,] Dist_func =             {{0, 5.5f, 8f, 10},              // Близко
                                              {9.5f, 11f, 14f, 15},            // Средне
                                              {14.5f, 16, 60, 200}};          // Далеко
+=======
+    public float[,] Dist_func =             {{0, 1.5f, 4f, 5},              // Тело
+                                             {4.5f, 6f, 9f, 10},            // Близко
+                                             {4.5f, 6f, 9f, 10},            // Средне
+                                             {9.5f, 11, 50, 200}};          // Далеко
+>>>>>>> 0ee346f33d1f06866b8a0fe79b92270eab3ec10c
 
     public float[,] Dist_to_target_func =   {{0, 1.5f, 4f, 5},              // ВПЛОТНУЮ
                                              {4.5f, 5f, 8f, 10},            // Близко
@@ -50,6 +57,7 @@ public class Fuzzy_logic : MonoBehaviour
     private static string Speed_medium_name = "СРЕДНЕ";
     private static string Speed_fast_name = "БЫСТРО";
 
+    private static string Distance_low_zero = "ТЕЛО";
     private static string Distance_low_name = "БЛИЗКО";
     private static string Distance_med_name = "СРЕДНЕ";
     private static string Distance_high_name = "ДАЛЕКО";
@@ -142,57 +150,66 @@ public class Fuzzy_logic : MonoBehaviour
 
         // Рассчет растояния для определения переменной
         // Слева
-        float y_dist_low = Rules_y(Get_rows(Dist_func, 0), Lidar.left_dist);
-        float y_dist_med = Rules_y(Get_rows(Dist_func, 1), Lidar.left_dist);
-        float y_dist_hig = Rules_y(Get_rows(Dist_func, 2), Lidar.left_dist);
-        float[] mass_dist_l = { y_dist_low, y_dist_med, y_dist_hig};
+        float y_dist_zero = Rules_y(Get_rows(Dist_func, 0), Lidar.left_dist);
+        float y_dist_low = Rules_y(Get_rows(Dist_func, 1), Lidar.left_dist);
+        float y_dist_med = Rules_y(Get_rows(Dist_func, 2), Lidar.left_dist);
+        float y_dist_hig = Rules_y(Get_rows(Dist_func, 3), Lidar.left_dist);
+        float[] mass_dist_l = { y_dist_low, y_dist_med, y_dist_hig, y_dist_zero };
         Array.Sort(mass_dist_l);
-        if (y_dist_low == mass_dist_l[2]) Distance_left = Distance_low_name;
-        if (y_dist_med == mass_dist_l[2]) Distance_left = Distance_med_name;
-        if (y_dist_hig == mass_dist_l[2]) Distance_left = Distance_high_name;
+        if (y_dist_low == mass_dist_l[3]) Distance_left = Distance_low_name;
+        if (y_dist_med == mass_dist_l[3]) Distance_left = Distance_med_name;
+        if (y_dist_hig == mass_dist_l[3]) Distance_left = Distance_high_name;
+        if (y_dist_zero == mass_dist_l[3]) Distance_left = Distance_low_zero;
 
         // Справа
-        y_dist_low = Rules_y(Get_rows(Dist_func, 0), Lidar.right_dist);
-        y_dist_med = Rules_y(Get_rows(Dist_func, 1), Lidar.right_dist);
-        y_dist_hig = Rules_y(Get_rows(Dist_func, 2), Lidar.right_dist);
-        float[] mass_dist_r = { y_dist_low, y_dist_med, y_dist_hig };
+        y_dist_zero = Rules_y(Get_rows(Dist_func, 0), Lidar.left_dist);
+        y_dist_low = Rules_y(Get_rows(Dist_func, 1), Lidar.right_dist);
+        y_dist_med = Rules_y(Get_rows(Dist_func, 2), Lidar.right_dist);
+        y_dist_hig = Rules_y(Get_rows(Dist_func, 3), Lidar.right_dist);
+        float[] mass_dist_r = { y_dist_low, y_dist_med, y_dist_hig, y_dist_zero };
         Array.Sort(mass_dist_r);
-        if (y_dist_low == mass_dist_r[2]) Distance_right = Distance_low_name;
-        if (y_dist_med == mass_dist_r[2]) Distance_right = Distance_med_name;
-        if (y_dist_hig == mass_dist_r[2]) Distance_right = Distance_high_name;
+        if (y_dist_low == mass_dist_r[3]) Distance_right = Distance_low_name;
+        if (y_dist_med == mass_dist_r[3]) Distance_right = Distance_med_name;
+        if (y_dist_hig == mass_dist_r[3]) Distance_right = Distance_high_name;
+        if (y_dist_zero == mass_dist_r[3]) Distance_right = Distance_low_zero;
 
         //////////////////////////////////////////////
         // Справа 45
-        y_dist_low = Rules_y(Get_rows(Dist_func, 0), Lidar.right_45_dist);
-        y_dist_med = Rules_y(Get_rows(Dist_func, 1), Lidar.right_45_dist);
-        y_dist_hig = Rules_y(Get_rows(Dist_func, 2), Lidar.right_45_dist);
-        float[] mass_dist_r_45 = { y_dist_low, y_dist_med, y_dist_hig };
+        y_dist_zero = Rules_y(Get_rows(Dist_func, 0), Lidar.right_45_dist);
+        y_dist_low = Rules_y(Get_rows(Dist_func, 1), Lidar.right_45_dist);
+        y_dist_med = Rules_y(Get_rows(Dist_func, 2), Lidar.right_45_dist);
+        y_dist_hig = Rules_y(Get_rows(Dist_func, 3), Lidar.right_45_dist);
+        float[] mass_dist_r_45 = { y_dist_low, y_dist_med, y_dist_hig, y_dist_zero };
         Array.Sort(mass_dist_r_45);
-        if (y_dist_low == mass_dist_r_45[2]) Distance_45_right = Distance_low_name;
-        if (y_dist_med == mass_dist_r_45[2]) Distance_45_right = Distance_med_name;
-        if (y_dist_hig == mass_dist_r_45[2]) Distance_45_right = Distance_high_name;
+        if (y_dist_low == mass_dist_r_45[3]) Distance_45_right = Distance_low_name;
+        if (y_dist_med == mass_dist_r_45[3]) Distance_45_right = Distance_med_name;
+        if (y_dist_hig == mass_dist_r_45[3]) Distance_45_right = Distance_high_name;
+        if (y_dist_zero == mass_dist_r_45[3]) Distance_45_right = Distance_low_zero;
 
         //////////////////////////////////////////////
         // Слева 45
-        y_dist_low = Rules_y(Get_rows(Dist_func, 0), Lidar.left_45_dist);
-        y_dist_med = Rules_y(Get_rows(Dist_func, 1), Lidar.left_45_dist);
-        y_dist_hig = Rules_y(Get_rows(Dist_func, 2), Lidar.left_45_dist);
-        float[] mass_dist_l_45 = { y_dist_low, y_dist_med, y_dist_hig };
+        y_dist_zero = Rules_y(Get_rows(Dist_func, 0), Lidar.left_45_dist);
+        y_dist_low = Rules_y(Get_rows(Dist_func, 1), Lidar.left_45_dist);
+        y_dist_med = Rules_y(Get_rows(Dist_func, 2), Lidar.left_45_dist);
+        y_dist_hig = Rules_y(Get_rows(Dist_func, 3), Lidar.left_45_dist);
+        float[] mass_dist_l_45 = { y_dist_low, y_dist_med, y_dist_hig, y_dist_zero };
         Array.Sort(mass_dist_l_45);
-        if (y_dist_low == mass_dist_l_45[2]) Distance_45_left = Distance_low_name;
-        if (y_dist_med == mass_dist_l_45[2]) Distance_45_left = Distance_med_name;
-        if (y_dist_hig == mass_dist_l_45[2]) Distance_45_left = Distance_high_name;
+        if (y_dist_low == mass_dist_l_45[3]) Distance_45_left = Distance_low_name;
+        if (y_dist_med == mass_dist_l_45[3]) Distance_45_left = Distance_med_name;
+        if (y_dist_hig == mass_dist_l_45[3]) Distance_45_left = Distance_high_name;
+        if(y_dist_zero == mass_dist_l_45[3]) Distance_45_left = Distance_low_zero;
 
         // Прямо
-        y_dist_low = Rules_y(Get_rows(Dist_func, 0), Lidar.forward_dist);
-        y_dist_med = Rules_y(Get_rows(Dist_func, 1), Lidar.forward_dist);
-        y_dist_hig = Rules_y(Get_rows(Dist_func, 2), Lidar.forward_dist);
-        float[] mass_dist_f = { y_dist_low, y_dist_med, y_dist_hig };
+        y_dist_zero = Rules_y(Get_rows(Dist_func, 0), Lidar.forward_dist);
+        y_dist_low = Rules_y(Get_rows(Dist_func, 1), Lidar.forward_dist);
+        y_dist_med = Rules_y(Get_rows(Dist_func, 2), Lidar.forward_dist);
+        y_dist_hig = Rules_y(Get_rows(Dist_func, 3), Lidar.forward_dist);
+        float[] mass_dist_f = { y_dist_low, y_dist_med, y_dist_hig, y_dist_zero };
         Array.Sort(mass_dist_f);
-        if (y_dist_low == mass_dist_f[2]) Distance_front = Distance_low_name;
-        if (y_dist_med == mass_dist_f[2]) Distance_front = Distance_med_name;
-        if (y_dist_hig == mass_dist_f[2]) Distance_front = Distance_high_name;
-
+        if (y_dist_low == mass_dist_f[3]) Distance_front = Distance_low_name;
+        if (y_dist_med == mass_dist_f[3]) Distance_front = Distance_med_name;
+        if (y_dist_hig == mass_dist_f[3]) Distance_front = Distance_high_name;
+        if (y_dist_zero == mass_dist_f[3]) Distance_front = Distance_low_zero;
 
         // Расстояние до цели
         float _dist_to_traget = Vector3.Distance(target.position, Lidar.transform.position);
