@@ -37,6 +37,9 @@ public class Fuzzy_rules : MonoBehaviour
         if ((l.Distance_front != "дюкейн") && (l.Distance_left != "акхгйн")) { l.Degree = "кебее"; }
         if ((l.Distance_45_left != "дюкейн") && (l.Distance_left == "акхгйн")) { l.Speed = "япедме"; }
 
+        //еЯКХ БНЬКХ РЕКНЛ
+        if ((l.Distance_right == "рекн") && (l.Distance_45_right == "рекн")) { l.Degree = "кебее"; l.Speed = "япедме"; }
+        if ((l.Distance_left == "рекн") && (l.Distance_45_left == "рекн")) { l.Degree = "опюбее"; l.Speed = "япедме"; }
 
         if (l.Dist_to_target == "бокнрмсч") { l.Speed = "ярно"; l.Degree = "пнбмн"; }
 <<<<<<< HEAD
