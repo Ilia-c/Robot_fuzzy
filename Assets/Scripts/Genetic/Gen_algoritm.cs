@@ -102,6 +102,8 @@ public class Gen_algoritm : MonoBehaviour
     }
 
 
+
+
     private float[,] random_func(float[,] speed_func)
     {
         float[,] ret = new float[speed_func.GetLength(0), speed_func.GetLength(1)];

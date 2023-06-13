@@ -67,42 +67,5 @@ public class Fuzzy_rules : MonoBehaviour
         if ((l.Distance_left == "рекн") || (l.Distance_45_left == "рекн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
         if (l.Dist_to_target == "бокнрмсч") { l.Speed = "ярно"; l.Degree = "пнбмн"; Fuzzy_Number = "онкмюъ нярюмнбйю"; }
     }
-    /* if (((l.Distance_front == "дюкейн") || (l.Distance_front == "япедме")) ) { l.Speed = "ашярпн"; }
-     //пЮГБНПНР Й ЖЕКХ
-
-     if (((l.To_target == "кебее") || (l.To_target == "яхкэмн кебее")) && (l.Distance_front != "рекн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-     if (((l.To_target == "опюбее") || (l.To_target == "яхкэмн опюбее")) && (l.Distance_front != "рекн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-     if (l.To_target == "пнбмн") { l.Degree = "пнбмн"; }
-
-     //ондунд й опеоърярбхъл
-     if ((l.Distance_front != "дюкейн") && (l.Distance_45_left != "дюкейн") || (l.Distance_45_right != "дюкейн")) { l.Speed = "япедме"; }
-     if (l.Distance_front == "рекн") { l.Speed = "ярно"; }
-
-     //ононпнр нр опеоърябхи
-     if ((l.Distance_front != "дюкейн") && (l.Distance_45_right != "акхгйн") && (l.Distance_right != "акхгйн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-     if (((l.Distance_front != "дюкейн") && (l.Distance_45_left !="акхгйн")) && (l.Distance_left  != "акхгйн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-
-     if ((l.Distance_left == "акхгйн") || (l.Distance_45_left == "акхгйн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-     if ((l.Distance_left == "акхгйн") || (l.Distance_45_right == "акхгйн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-
-     //онбнпнрш 45
-     if (l.Distance_left == "акхгйн") { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-     if (l.Distance_45_left == "акхгйн") { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-
-     if (l.Distance_right == "акхгйн") { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-     if (l.Distance_45_right == "акхгйн") { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-
-     //еЯКХ БНЬКХ РЕКНЛ
-     if ((l.Distance_right == "рекн") || (l.Distance_45_right == "рекн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-     if ((l.Distance_left == "рекн") || (l.Distance_45_left == "рекн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-
-     //нярюбмнбйю
-     if (l.Dist_to_target == "акхгйн") 
-     {
-         if(((l.To_target == "кебее") || (l.To_target == "яхкэмн кебее")) && (l.Distance_front != "рекн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
-         if (((l.To_target == "опюбее") || (l.To_target == "яхкэмн опюбее")) && (l.Distance_front != "рекн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-     }
-     if (l.Dist_to_target == "бокнрмсч") { l.Speed = "ярно"; l.Degree = "пнбмн"; }
-
- }*/
+    
 }

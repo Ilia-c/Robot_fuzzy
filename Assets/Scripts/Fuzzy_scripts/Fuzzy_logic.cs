@@ -110,19 +110,9 @@ public class Fuzzy_logic : MonoBehaviour
     public float Rules_y(float[] x_m, float x)
     {
         float y = 0;
-        //if (x >= 0)
-        //{
-            if ((x >= x_m[0]) && (x <= x_m[1])) y = (x - x_m[0]) / (x_m[1] - x_m[0]);
-            if ((x > x_m[1]) & (x <= x_m[2])) y = 1;
-            if ((x > x_m[2]) & (x <= x_m[3])) y = (x_m[3] - x) / (x_m[3] - x_m[2]);
-        /*}
-        else
-        {
-            if ((x <= x_m[0]) && (x >= x_m[1])) y = (x - x_m[0]) / (x_m[1] - x_m[0]);
-            if ((x < x_m[1]) & (x >= x_m[2])) y = 1;
-            if ((x < x_m[2]) & (x >= x_m[3])) y = (x_m[3] - x) / (x_m[3] - x_m[2]);
-        }*/
-
+        if ((x >= x_m[0]) && (x <= x_m[1])) y = (x - x_m[0]) / (x_m[1] - x_m[0]);
+        if ((x > x_m[1]) & (x <= x_m[2])) y = 1;
+        if ((x > x_m[2]) & (x <= x_m[3])) y = (x_m[3] - x) / (x_m[3] - x_m[2]);
         return y;
     }
 
