@@ -51,7 +51,7 @@ public class Gen_algoritm : MonoBehaviour
     //private List<float> Population_next_time = new List<float>();
 
     public float max_rand = 5;
-    public float population_size_start = 10;
+    public int population_size_start = 10;
     // Таймер
     private float start_time = 0.0f;
     public float period = 30f;
@@ -107,10 +107,10 @@ public class Gen_algoritm : MonoBehaviour
         {
             for (int j = 0; j < Pop_next.Count; j++)
             {
-                float ver = UnityEngine.Random.Range(0, 1);
+                float ver = UnityEngine.Random.Range(0, 1.0f);
                 if (Pop_next[j].y > ver)
                 {
-                    float[] gen = cross(Pop_next[i], Pop_next[j]);
+                    float[] gen = cross(Pop_next[i], Pop_next[j], i,j);
                     new_gen.Add(gen);
                 }
             }
@@ -120,18 +120,21 @@ public class Gen_algoritm : MonoBehaviour
             Destroy(Pop_st[i].gameobj);
         }
         Pop_st.Clear();
+        Pop_next.Clear();
         for (int i = max_population; i < new_gen.Count; i++)
         {
             new_gen.RemoveAt(i);
         }
 
-        /*
-        if (new_gen.Count < 20)
+        
+        if (new_gen.Count < population_size_start)
         {
-            population_size_start = 20 - new_gen.Count;
+            int s = population_size_start;
+            population_size_start = population_size_start - new_gen.Count;
             create_first_population();
+            population_size_start = s;
         }
-        */
+        
 
         population_create(new_gen);
         start_time = Time.time;
@@ -168,7 +171,7 @@ public class Gen_algoritm : MonoBehaviour
     }
 
 
-    private float[] cross(Population x, Population y)
+    private float[] cross(Population x, Population y, int first, int second)
     {
         Population result = new Population();
         //  public float chance_mutation = 0.1f;
@@ -181,20 +184,26 @@ public class Gen_algoritm : MonoBehaviour
 
         for (int i = 0; i<gens_count; i++)
         {
-            
-            if (UnityEngine.Random.Range(0, 1.0f) < x.y)
+            if (first != second)
             {
-                new_gen[i] = x.gameobj.GetComponent<Gen>().Gen_vect[i];
+                if (UnityEngine.Random.Range(0, 1.0f) < x.y)
+                {
+                    new_gen[i] = x.gameobj.GetComponent<Gen>().Gen_vect[i];
+                }
+                else
+                {
+                    new_gen[i] = y.gameobj.GetComponent<Gen>().Gen_vect[i];
+                }
+
+                // Мутация
+                if ((UnityEngine.Random.Range(0, 1) < chance_mutation) & !array.Contains(i))
+                {
+                    new_gen[i] += UnityEngine.Random.Range(-5, 5);
+                }
             }
             else
             {
-                new_gen[i] = y.gameobj.GetComponent<Gen>().Gen_vect[i];
-            }
-
-            // Мутация
-            if ((UnityEngine.Random.Range(0, 1) < chance_mutation) & !array.Contains(i))
-            {
-                new_gen[i] += UnityEngine.Random.Range(-5, 5);
+                new_gen[i] = x.gameobj.GetComponent<Gen>().Gen_vect[i];
             }
         }
 
