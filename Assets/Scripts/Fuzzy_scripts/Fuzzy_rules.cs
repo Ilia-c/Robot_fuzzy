@@ -20,7 +20,7 @@ public class Fuzzy_rules : MonoBehaviour
         if (!stop) Rules();
         else
         {
-            if (cycle<200)
+            if (cycle<50)
             {
                 if ((l.Speed != "ÑÒÎÏ") & (l.Degree != "ÐÎÂÍÎ")) Gen_alg.GetComponent<Gen_algoritm>().robot_destroy(transform.name);
                 cycle++;
@@ -30,7 +30,7 @@ public class Fuzzy_rules : MonoBehaviour
             }
             else
             {
-                if (cycle == 200)
+                if (cycle == 50)
                 {
                     Gen_alg.GetComponent<Gen_algoritm>().target_accept(Time.time - start_time, transform.name);
                     cycle++;

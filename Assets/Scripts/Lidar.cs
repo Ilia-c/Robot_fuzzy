@@ -36,6 +36,7 @@ public class Lidar : MonoBehaviour
     void FixedUpdate()
     {
         // Вращение
+        /*
         rotationVector = new Vector3(0, degree_lidar, 0);
         Quaternion rotation = Quaternion.Euler(rotationVector);
         Lid.transform.rotation = Quaternion.Lerp(Lid.transform.rotation, rotation, 5.5f * Time.deltaTime);
@@ -44,6 +45,7 @@ public class Lidar : MonoBehaviour
         {
             degree_lidar = 0;
         }
+        */
         Dist_to_nav();
         // Получение показаний
         //Point_lidat();

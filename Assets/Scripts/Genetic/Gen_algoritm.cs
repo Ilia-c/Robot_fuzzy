@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -38,53 +39,175 @@ public class Gen_algoritm : MonoBehaviour
 
     public GameObject Robot;
     public GameObject Collect_robot;
-    public Transform Target;
-    public Transform Spawn_point;
-    private List<float> Gen_vect = new List<float>(); // Все гены
 
-    public float chance_mutation = 0.01f;
-    public int max_population = 100;
+    public GameObject[] Target_pos_var = new GameObject[10];
+    public GameObject[] Spawn_point_var = new GameObject[10];
 
-    //private List<GameObject> Population = new List<GameObject>(); // Список особей
-    //private List<GameObject> Population_next = new List<GameObject>();
+    public GameObject Target;
+    public GameObject Spawn_point;
 
-    //private List<float> Population_next_time = new List<float>();
+    public Material red;
+    public Material green;
+    public Material none;
 
-    public float max_rand = 5;
+    public GameObject text;
+
     public int population_size_start = 10;
-    // Таймер
-    private float start_time = 0.0f;
+    public int max_population = 100;
+    public int cycles_max = 20;
+    public float chance_mutation = 0.01f;
+    public float max_rand = 5;
     public float period = 30f;
-    public struct Population
+
+    [Range(1, 10)]
+    public float time_scale = 1;
+    
+    
+
+    private int cycles = 0;
+    private float start_time = 0.0f;
+    private struct Population
     {
         public GameObject gameobj;
         public float y;
     }
-    private List<Population> Pop_st = new List<Population>(); // Список особей
+    private List<Population> Pop_st = new List<Population>();   // Список особей
     private List<Population> Pop_next = new List<Population>(); // Список особей
 
     private void Start()
     {
-        //read_genetic();
+        
+        //Write_txt();
         create_first_population();
-
         start_time = Time.time;
     }
 
     private void FixedUpdate()
     {
+        Time.timeScale = time_scale;
         if (Time.time - start_time >= period)
         {
-
-            Debug.Log(1);
-            Population_selection();
-            start_time = Time.time;
+            if (cycles < cycles_max)
+            {
+                Population_selection();
+                start_time = Time.time;
+                cycles++;
+            }
+            else
+            {
+                if (cycles == cycles_max)
+                {
+                    Write_txt();
+                    text.SetActive(true);
+                    cycles++;
+                }
+            }
         }
+    }
+
+    private void Write_txt()
+    {
+        string data_wr = "";
+        for (int k = 0; k < Pop_next.Count; k++)
+        {
+            data_wr += "    public float[,] Speed_func =            {";
+            for (int i = 0; i < Speed_func.GetLength(0); i++)
+            {
+                data_wr += "{";
+                for (int j = 0; j < Speed_func.GetLength(1); j++)
+                {
+                    data_wr += Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Speed_func[i, j].ToString().Replace(",", ".");
+                    if (j != 3) data_wr += "f,";
+                }
+                if (i != 3) data_wr += "f}, \n                                             ";
+                else data_wr += "f}}; \n\n";
+            }
+
+            data_wr += "    public float[,] Dist_func =             {";
+            for (int i = 0; i < Dist_func.GetLength(0); i++)
+            {
+                data_wr += "{";
+                for (int j = 0; j < Dist_func.GetLength(1); j++)
+                {
+                    data_wr += Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Dist_func[i, j].ToString().Replace(",", ".");
+                    if (j != 3) data_wr += "f,";
+                }
+                if (i != 3) data_wr += "f}, \n                                             ";
+                else data_wr += "f}}; \n\n";
+            }
+
+
+            data_wr += "    public float[,] Dist_to_target_func =   {";
+            for (int i = 0; i < Dist_to_target_func.GetLength(0); i++)
+            {
+                data_wr += "{";
+                for (int j = 0; j < Dist_to_target_func.GetLength(1); j++)
+                {
+                    data_wr += Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Dist_to_target_func[i, j].ToString().Replace(",", ".");
+                    if (j != 3) data_wr += "f,";
+                }
+                if (i != 3) data_wr += "f}, \n                                             ";
+                else data_wr += "f}}; \n\n";
+            }
+
+            data_wr += "    public float[,] Deg_to_target_func =    {";
+            for (int i = 0; i < Deg_to_target_func.GetLength(0); i++)
+            {
+                data_wr += "{";
+                for (int j = 0; j < Deg_to_target_func.GetLength(1); j++)
+                {
+                    data_wr += Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Deg_to_target_func[i, j].ToString().Replace(",", ".");
+                    if (j != 3) data_wr += "f,";
+                }
+                if (i != 4) data_wr += "f}, \n                                             ";
+                else data_wr += "f}}; \n\n";
+            }
+
+            data_wr += "    public float[,] Degree_func =           {";
+            for (int i = 0; i < Degree_func.GetLength(0); i++)
+            {
+                data_wr += "{";
+                for (int j = 0; j < Degree_func.GetLength(1); j++)
+                {
+                    data_wr += Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Degree_func[i, j].ToString().Replace(",", ".");
+                    if (j != 3) data_wr += "f,";
+                }
+                if (i != 4) data_wr += "f}, \n                                             ";
+                else data_wr += "f}}; \n\n";
+            }
+            data_wr += "\n\n--------------------------------\n\n";
+        }
+        string filePath = Application.dataPath + "/data.txt";
+        StreamWriter sw;
+        FileInfo file = new FileInfo(filePath);
+        sw = file.CreateText();
+        sw.WriteLine(data_wr);
+        sw.Close();
+        sw.Dispose();
+
     }
 
     private void Population_selection()
     {
+        Debug.Log(Pop_next[0].gameobj.name + " " + Pop_next[0].y);
 
+
+        Speed_func = Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Speed_func;
+        Dist_func = Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Dist_func;
+        Dist_to_target_func = Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Dist_to_target_func;
+        Deg_to_target_func = Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Deg_to_target_func;
+        Degree_func = Pop_next[0].gameobj.GetComponent<Fuzzy_logic>().Degree_func;
+
+
+        Target.GetComponent<MeshRenderer>().material = none;
+        Spawn_point.GetComponent<MeshRenderer>().material = none;
+
+        Target = Target_pos_var[UnityEngine.Random.Range(0, 10)];
+        Spawn_point = Spawn_point_var[UnityEngine.Random.Range(0, 10)];
+
+        Target.GetComponent<MeshRenderer>().material = red;
+        Spawn_point.GetComponent<MeshRenderer>().material = green;
+        //Spawn_point.transform.position = new Vector3(UnityEngine.Random.Range(0, 100f), 2, UnityEngine.Random.Range(0, 100f));
         //Pop_st.Clear();
         // Изменение стоимсоти скрещивания
         float time_summ = 0;
@@ -107,11 +230,23 @@ public class Gen_algoritm : MonoBehaviour
         {
             for (int j = 0; j < Pop_next.Count; j++)
             {
-                float ver = UnityEngine.Random.Range(0, 1.0f);
-                if (Pop_next[j].y > ver)
+                System.Random rnd = new System.Random();
+
+                double ver_1 = rnd.NextDouble();
+                double ver_2 = 0;//rnd.NextDouble();
+                //Pop_next[j].y
+                if ((Pop_next[j].y > ver_1) && (Pop_next[i].y > ver_2))
                 {
                     float[] gen = cross(Pop_next[i], Pop_next[j], i,j);
                     new_gen.Add(gen);
+                }
+                else
+                {
+                    if (i == j)
+                    {
+                        float[] gen = cross(Pop_next[i], Pop_next[j], i, j);
+                        new_gen.Add(gen);
+                    }
                 }
             }
         }
@@ -144,9 +279,9 @@ public class Gen_algoritm : MonoBehaviour
     {
         for (int i = 0; i < new_gen.Count; i++)
         {
-            GameObject new_robot = Instantiate(Robot, new Vector3(Spawn_point.position.x, 0, Spawn_point.position.z), Quaternion.identity);
+            GameObject new_robot = Instantiate(Robot, new Vector3(Spawn_point.transform.position.x, 0, Spawn_point.transform.position.z), Quaternion.identity);
             new_robot.transform.SetParent(Collect_robot.transform);
-            new_robot.GetComponent<Fuzzy_logic>().target = Target;
+            new_robot.GetComponent<Fuzzy_logic>().target = Target.transform;
 
 
             float[,] Speed = write_func(new_gen[i], 0, 4);
@@ -224,17 +359,17 @@ public class Gen_algoritm : MonoBehaviour
                 //Population_next_time.Add(time);
             }
         }
-        Debug.Log(name + " " + time);
+        //Debug.Log(name + " " + time);
     }
 
     private void create_first_population()
     {
         for (int i = 0; i < population_size_start; i++)
         {
-            GameObject new_robot = Instantiate(Robot, new Vector3(Spawn_point.position.x, 0, Spawn_point.position.z), Quaternion.identity);
+            GameObject new_robot = Instantiate(Robot, new Vector3(Spawn_point.transform.position.x, 0, Spawn_point.transform.position.z), Quaternion.identity);
             new_robot.transform.SetParent(Collect_robot.transform);
 
-            new_robot.GetComponent<Fuzzy_logic>().target = Target;
+            new_robot.GetComponent<Fuzzy_logic>().target = Target.transform;
 
             float[,] Speed = random_func(Speed_func, 1);
             float[,] Dist = random_func(Dist_func, 0);
