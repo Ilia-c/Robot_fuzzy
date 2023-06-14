@@ -173,7 +173,7 @@ public class Gen_algoritm : MonoBehaviour
 
     private float[] cross(Population x, Population y, int first, int second)
     {
-        Population result = new Population();
+        //Population result = new Population();
         //  public float chance_mutation = 0.1f;
         //  public int max_population = 100;
 
