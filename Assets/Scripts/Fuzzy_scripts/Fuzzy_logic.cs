@@ -25,12 +25,12 @@ public class Fuzzy_logic : MonoBehaviour
                                              {8.5f, 12, 15, 20}};           // Быстро
 
     public float[,] Dist_func =             {{0, 1f, 2.5f, 4f},              // Тело
-                                             {3.5f, 5f, 6f, 8f},            // Близко
-                                             {7.5f, 10f, 14f, 15f},            // Средне
+                                             {3.5f, 5f, 6f, 8f},             // Близко
+                                             {7.5f, 10f, 14f, 15f},          // Средне
                                              {14.5f, 16, 50, 200}};          // Далеко
 
-    public float[,] Dist_to_target_func =   {{0, 1.5f, 4f, 5},              // ВПЛОТНУЮ
-                                             {4.5f, 5f, 8f, 10},            // Близко
+    public float[,] Dist_to_target_func =   {{0, 1.5f, 2f, 3},              // ВПЛОТНУЮ
+                                             {2.5f, 5f, 8f, 10},            // Близко
                                              {9.5f, 11f, 20f, 30},          // Средне
                                              {25f, 30, 50, 100}};           // Далеко
 
@@ -127,10 +127,10 @@ public class Fuzzy_logic : MonoBehaviour
         float[] mass_speed = { y_speed_stop, y_speed_low, y_speed_medium, y_speed_fast };
         Array.Sort(mass_speed);
 
-        if (y_speed_stop == mass_speed[3]) Speed = Speed_stop_name;
         if (y_speed_low == mass_speed[3]) Speed = Speed_low_name;
         if (y_speed_medium == mass_speed[3]) Speed = Speed_medium_name;
         if (y_speed_fast == mass_speed[3]) Speed = Speed_fast_name;
+        if (y_speed_stop == mass_speed[3]) Speed = Speed_stop_name;
 
         // Рассчет растояния для определения переменной
         // Слева
@@ -248,11 +248,6 @@ public class Fuzzy_logic : MonoBehaviour
         return result;
     }
 
-
-    public void rules()
-    {
-
-    }
 
 
     public static float AngleAroundAxis(Vector3 dirA, Vector3 dirB, Vector3 axis)

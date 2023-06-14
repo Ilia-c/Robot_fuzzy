@@ -5,10 +5,40 @@ using UnityEngine;
 public class Fuzzy_rules : MonoBehaviour
 {
     public Fuzzy_logic l;
+    public GameObject Gen_alg;
     public string Fuzzy_Number;
+    public float start_time;
+    private bool stop = false;
+    private int cycle = 0;
+
+    private void Start()
+    {
+        start_time = Time.time;
+    }
     private void FixedUpdate()
     {
-        Rules();
+        if (!stop) Rules();
+        else
+        {
+            if (cycle<200)
+            {
+                if ((l.Speed != "ярно") & (l.Degree != "пнбмн")) Gen_alg.GetComponent<Gen_algoritm>().robot_destroy(transform.name);
+                cycle++;
+                l.Speed = "ярно";
+                l.Degree = "пнбмн";
+                //Debug.Log(cycle);
+            }
+            else
+            {
+                if (cycle == 200)
+                {
+                    Gen_alg.GetComponent<Gen_algoritm>().target_accept(Time.time - start_time, transform.name);
+                    cycle++;
+                }
+                
+            }
+
+        }
     }
 
     private void Rules()
@@ -65,7 +95,13 @@ public class Fuzzy_rules : MonoBehaviour
         //еЯКХ БНЬКХ РЕКНЛ
         if ((l.Distance_right == "рекн") || (l.Distance_45_right == "рекн")) { l.Degree = "кебее"; l.Speed = "ледкеммн"; }
         if ((l.Distance_left == "рекн") || (l.Distance_45_left == "рекн")) { l.Degree = "опюбее"; l.Speed = "ледкеммн"; }
-        if (l.Dist_to_target == "бокнрмсч") { l.Speed = "ярно"; l.Degree = "пнбмн"; Fuzzy_Number = "онкмюъ нярюмнбйю"; }
+
+        if (l.Dist_to_target == "бокнрмсч") { 
+            l.Speed = "ярно";
+            l.Degree = "пнбмн"; 
+            Fuzzy_Number = "онкмюъ нярюмнбйю"; 
+            stop = true; 
+        }
     }
     
 }
