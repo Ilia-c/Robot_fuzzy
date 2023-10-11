@@ -64,7 +64,7 @@ public class Fuzzy_logic : MonoBehaviour
     private static string To_target_more_left = "яхкэмн кебее";
     private static string To_target_right = "опюбее";
     private static string To_target_more_right = "яхкэмн опюбее";
-
+     
     private static string Distance_to_target_stop_name = "бокнрмсч";
     private static string Distance_to_target_low_name = "акхгйн";
     private static string Distance_to_target_med_name = "япедме";
